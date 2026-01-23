@@ -1,0 +1,7 @@
+google-generativeai>=0.3.0
+web3>=6.0.0
+eth-account>=0.8.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+flask>=3.0.0
+flask-cors>=4.0.0

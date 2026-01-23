@@ -1,0 +1,10 @@
+{
+  "transaction_id": "tx_0x123abc_arc",
+  "Contract_Terms": "Generate a Python script to fetch the current price of USDC using the CoinGecko API.",
+  "Acceptance_Criteria": [
+    "Must be written in Python 3",
+    "Must handle API errors gracefully",
+    "Must print the price to console"
+  ],
+  "Delivery_Content": "import requests\n\ndef get_usdc_price():\n    url = 'https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=usd'\n    try:\n        response = requests.get(url)\n        data = response.json()\n        print(f'Current USDC Price: ${data[\"usd-coin\"][\"usd\"]}')\n    except Exception as e:\n        print('Error fetching price')\n\nget_usdc_price()"
+}
