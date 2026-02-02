@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import Landing from './components/Landing'
+import RoleSelection from './components/RoleSelection'
 import VerificationForm from './components/VerificationForm'
 import Deployment from './components/Deployment'
 import Monitoring from './components/Monitoring'
 import Documentation from './components/Documentation'
 import Integration from './components/Integration'
-import { Menu, X, Zap, Shield, Activity, Book, Code } from 'lucide-react'
+import DeliverySubmission from './components/DeliverySubmission'
+import TelegramConnect from './components/TelegramConnect'
+import FutureBackground from './components/FutureBackground'
+import { Menu, X, Zap, Shield, Activity, Book, Code, Home, ChevronRight } from 'lucide-react'
 import './App.css'
 
 function Navigation() {
@@ -13,22 +18,28 @@ function Navigation() {
   const location = useLocation()
 
   const navItems = [
-    { path: '/', label: 'Verify', icon: Shield },
+    { path: '/', label: 'Home', icon: Home },
+    { path: '/verify', label: 'Verify', icon: Shield },
     { path: '/deploy', label: 'Deploy', icon: Zap },
     { path: '/monitor', label: 'Monitor', icon: Activity },
     { path: '/docs', label: 'Docs', icon: Book },
     { path: '/integrate', label: 'Integrate', icon: Code },
   ]
 
+  // We want the navbar to be visible but discreet on the landing page
+  const isLanding = location.pathname === '/';
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isLanding ? 'navbar-landing' : ''}`}>
       <div className="nav-container">
         <Link to="/" className="logo">
-          <Shield className="logo-icon" />
-          <span>HALE Oracle</span>
+          <div className="logo-glow">
+            <Shield className="logo-icon" />
+          </div>
+          <span className="text-gradient">HALE Oracle</span>
         </Link>
-        
-        <button 
+
+        <button
           className="mobile-menu-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
@@ -38,17 +49,26 @@ function Navigation() {
         <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
           {navItems.map(({ path, label, icon: Icon }) => (
             <li key={path}>
-              <Link 
-                to={path} 
+              <Link
+                to={path}
                 className={location.pathname === path ? 'active' : ''}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Icon size={18} />
-                {label}
+                <span>{label}</span>
+                {location.pathname === path && <div className="active-dot" />}
               </Link>
             </li>
           ))}
         </ul>
+
+        {!isLanding && (
+          <div className="nav-actions">
+            <button className="btn-launch-small" onClick={() => window.location.href = '/verify'}>
+              LAUNCH <ChevronRight size={14} />
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   )
@@ -57,15 +77,18 @@ function Navigation() {
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div className="app-container">
         <Navigation />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<VerificationForm />} />
+            <Route path="/" element={<RoleSelection />} />
+            <Route path="/verify" element={<VerificationForm />} />
             <Route path="/deploy" element={<Deployment />} />
             <Route path="/monitor" element={<Monitoring />} />
             <Route path="/docs" element={<Documentation />} />
             <Route path="/integrate" element={<Integration />} />
+            <Route path="/submit" element={<DeliverySubmission />} />
+            <Route path="/connect-telegram" element={<TelegramConnect />} />
           </Routes>
         </main>
       </div>

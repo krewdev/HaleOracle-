@@ -1,0 +1,211 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "HALE Oracle API",
+        "description": "The HALE (Heuristic Autonomous Logical Evaluation) Oracle API allows autonomous agents to request forensic verification of digital deliverables against contractual terms. It bridges the gap between off-chain verification and on-chain USDC settlement on the Circle Arc network.",
+        "version": "1.0.0",
+        "contact": {
+            "name": "HALE Oracle Team"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Development Server"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "VerificationRequest": {
+                "type": "object",
+                "required": [
+                    "contract_data"
+                ],
+                "properties": {
+                    "contract_data": {
+                        "type": "object",
+                        "required": [
+                            "transaction_id",
+                            "Contract_Terms",
+                            "Acceptance_Criteria",
+                            "Delivery_Content"
+                        ],
+                        "properties": {
+                            "transaction_id": {
+                                "type": "string",
+                                "description": "Unique identifier for this transaction or escrow agreement"
+                            },
+                            "Contract_Terms": {
+                                "type": "string",
+                                "description": "The full text of the agreement or job description"
+                            },
+                            "Acceptance_Criteria": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "List of specific, testable conditions the delivery must meet"
+                            },
+                            "Delivery_Content": {
+                                "type": "string",
+                                "description": "The actual deliverable content (code, text, data) to be verified"
+                            },
+                            "contract_address": {
+                                "type": "string",
+                                "description": "Optional: The specific ArcFuseEscrow contract address to trigger upon success"
+                            }
+                        }
+                    },
+                    "seller_address": {
+                        "type": "string",
+                        "description": "The wallet address of the seller (recipient of funds)"
+                    }
+                }
+            },
+            "VerificationResponse": {
+                "type": "object",
+                "properties": {
+                    "transaction_id": {
+                        "type": "string"
+                    },
+                    "verdict": {
+                        "type": "string",
+                        "enum": [
+                            "PASS",
+                            "FAIL"
+                        ],
+                        "description": "The final decision of the Oracle"
+                    },
+                    "confidence_score": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100,
+                        "description": "AI confidence level in the verdict"
+                    },
+                    "release_funds": {
+                        "type": "boolean",
+                        "description": "Whether the smart contract should release funds"
+                    },
+                    "reasoning": {
+                        "type": "string",
+                        "description": "Explanation of the verdict, citing specific criteria or risks"
+                    },
+                    "risk_flags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of detected security risks or compliance failures"
+                    },
+                    "transaction_success": {
+                        "type": "boolean",
+                        "description": "Whether the on-chain sentiment transaction was successfully submitted"
+                    },
+                    "contract_address": {
+                        "type": "string",
+                        "description": "The smart contract address that was targeted"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/api/verify": {
+            "post": {
+                "summary": "Verify a Delivery",
+                "description": "Submit a delivery for forensic analysis. If 'seller_address' is provided and verdict is PASS, the Oracle will attempt to trigger the on-chain release function.",
+                "operationId": "verifyDelivery",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerificationRequest"
+                            },
+                            "example": {
+                                "contract_data": {
+                                    "transaction_id": "tx_12345_usdc",
+                                    "Contract_Terms": "Design a Python function to calculate Fibonacci numbers.",
+                                    "Acceptance_Criteria": [
+                                        "Must be recursive",
+                                        "Must handle negative input"
+                                    ],
+                                    "Delivery_Content": "def fib(n): return n if n<=1 else fib(n-1)+fib(n-2)",
+                                    "contract_address": "0x123..."
+                                },
+                                "seller_address": "0xABC..."
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification complete",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VerificationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid Input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/health": {
+            "get": {
+                "summary": "Health Check",
+                "description": "Check if the Oracle service is online and configured.",
+                "operationId": "healthCheck",
+                "responses": {
+                    "200": {
+                        "description": "Service is healthy",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "oracle_configured": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

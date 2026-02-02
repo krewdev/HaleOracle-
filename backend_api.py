@@ -62,6 +62,7 @@ def verify():
         
         contract_data = data['contract_data']
         seller_address = data.get('seller_address')
+        contract_address = data.get('contract_address') # New: Users can specify their own escrow
         
         # Validate required fields
         required_fields = ['Contract_Terms', 'Acceptance_Criteria', 'Delivery_Content']
@@ -75,9 +76,15 @@ def verify():
             }), 500
         
         # Verify delivery
+        # If seller_address is provided, we process the full flow
         if seller_address:
-            result = oracle.process_delivery(contract_data, seller_address)
+            result = oracle.process_delivery(
+                contract_data, 
+                seller_address, 
+                contract_address=contract_address
+            )
         else:
+            # Just verify logic without triggering contract
             result = oracle.verify_delivery(contract_data)
         
         return jsonify(result)
@@ -105,6 +112,7 @@ def monitor(contract_address):
             'activeEscrows': 5,
             'totalTransactions': 23,
             'successRate': 87.5,
+            'unit': 'USDC',
             'contractAddress': contract_address
         })
     except Exception as e:
@@ -150,6 +158,97 @@ def format_data():
         }), 500
 
 
+@app.route('/api/reviews', methods=['GET'])
+def list_reviews():
+    """List all pending reviews."""
+    try:
+        reviews_dir = os.path.join(os.path.dirname(__file__), 'pending_reviews')
+        if not os.path.exists(reviews_dir):
+            return jsonify([])
+        
+        reviews = []
+        for filename in os.listdir(reviews_dir):
+            if filename.endswith('.json'):
+                with open(os.path.join(reviews_dir, filename), 'r') as f:
+                    reviews.append(json.load(f))
+        
+        # Sort by timestamp (newest first)
+        reviews.sort(key=lambda x: x.get('timestamp', 0), reverse=True)
+        return jsonify(reviews)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/reviews/<review_id>/decision', methods=['POST'])
+def review_decision(review_id):
+    """Approve or reject a pending review."""
+    try:
+        data = request.json
+        decision = data.get('decision')  # 'PASS' or 'FAIL'
+        reason = data.get('reason', 'Human review completed.')
+        
+        if decision not in ['PASS', 'FAIL']:
+            return jsonify({'error': 'Invalid decision. Must be PASS or FAIL'}), 400
+            
+        reviews_dir = os.path.join(os.path.dirname(__file__), 'pending_reviews')
+        review_path = os.path.join(reviews_dir, f"{review_id}.json")
+        
+        if not os.path.exists(review_path):
+            return jsonify({'error': 'Review not found'}), 404
+            
+        with open(review_path, 'r') as f:
+            review_data = json.load(f)
+            
+        # Update verdict based on human decision
+        verdict = review_data['ai_verdict']
+        verdict['verdict'] = decision
+        verdict['release_funds'] = (decision == 'PASS')
+        verdict['reasoning'] = f"HUMAN AUDIT {decision}: {reason}\n\nORIGINAL AI REASONING: {verdict['reasoning']}"
+        
+        # Trigger blockchain transaction
+        seller_address = review_data['contract_data'].get('seller_address') or '0xUnknown'
+        target_contract = review_data['contract_data'].get('escrow_address')
+        
+        transaction_success = oracle.trigger_smart_contract(
+            verdict,
+            seller_address,
+            contract_address=target_contract
+        )
+        
+        # Mark as completed (or move/delete)
+        # For now, let's just delete the pending file
+        os.remove(review_path)
+        
+        return jsonify({
+            'status': 'success',
+            'verdict': verdict,
+            'transaction_success': transaction_success
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/openapi.json', methods=['GET'])
+def get_openapi():
+    """Serve the OpenAPI specification."""
+    try:
+        with open('openapi.json', 'r') as f:
+            return jsonify(json.load(f))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 404
+
+
+@app.route('/.well-known/ai-plugin.json', methods=['GET'])
+def get_ai_plugin():
+    """Serve the AI plugin manifest."""
+    try:
+        with open('.well-known/ai-plugin.json', 'r') as f:
+            return jsonify(json.load(f))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 404
+
+
 if __name__ == '__main__':
     port = int(os.getenv('API_PORT', 8000))
     debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
@@ -157,4 +256,4 @@ if __name__ == '__main__':
     print(f"Starting HALE Oracle API server on port {port}")
     print(f"Oracle configured: {oracle is not None}")
     
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='127.0.0.1', port=port, debug=debug)

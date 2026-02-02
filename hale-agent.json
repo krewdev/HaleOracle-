@@ -1,0 +1,19 @@
+{
+    "agent_id": "hale-forensic-auditor",
+    "name": "HALE Oracle",
+    "version": "1.0.0",
+    "capabilities": [
+        "delivery_verification",
+        "smart_contract_settlement",
+        "security_scanning",
+        "forensic_code_audit"
+    ],
+    "supported_networks": [
+        "Circle Arc Testnet"
+    ],
+    "currency": "USDC",
+    "api_endpoint": "http://localhost:8000/api/verify",
+    "openapi_spec": "http://localhost:8000/openapi.json",
+    "manifest": "http://localhost:8000/.well-known/ai-plugin.json",
+    "description": "Autonomous forensic auditor that bridges trust gaps by verifying digital deliverables and triggering USDC settlement via smart contracts."
+}

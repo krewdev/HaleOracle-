@@ -1,5 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
+// Try to load .env.local if present
+require("dotenv").config({ path: ".env.local" });
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -81,7 +83,7 @@ module.exports = {
         network: "arcTestnet",
         chainId: parseInt(process.env.ARC_TESTNET_CHAIN_ID || "5042002"),
         urls: {
-          apiURL: "https://api.testnet.arcscan.app/api",
+          apiURL: "https://testnet.arcscan.app/api",
           browserURL: "https://testnet.arcscan.app",
         },
       },

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HALE Oracle - Pitch Deck Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020205;
+            --accent: #00f2ff;
+            --secondary: #7000ff;
+            --text: #ffffff;
+            --glass: rgba(10, 10, 20, 0.7);
+            --border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #presentation-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+            transform: scale(1.1);
+            padding: 5%;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            z-index: -1;
+            transition: transform 10s linear;
+        }
+
+        .slide.active .slide-bg {
+            transform: scale(1.1);
+        }
+
+        .content {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            padding: 4rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            animation: contentIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+        }
+
+        @keyframes contentIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .bullets {
+            list-style: none;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .bullets li {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            animation: bulletFade 0.5s ease forwards;
+        }
+
+        @keyframes bulletFade {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .bullets li::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            margin-right: 1.5rem;
+            box-shadow: 0 0 15px var(--accent);
+            flex-shrink: 0;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.8rem 2rem;
+            border-radius: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+
+        button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        button:hover:not(:disabled) {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        button:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            transform: scale(1.3);
+        }
+
+        .narration-panel {
+            position: absolute;
+            bottom: 3rem;
+            right: 3rem;
+            width: 450px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            z-index: 90;
+        }
+
+        .narration-panel h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .narration-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 3rem;
+            right: 3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            opacity: 0.4;
+        }
+
+        .top-logo {
+            position: absolute;
+            top: 3rem;
+            left: 3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 5px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-logo">HALE</div>
+
+    <div id="presentation-container">
+        <!-- Slides will be generated by JS for cleaner formatting -->
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">BACK</button>
+        <div class="progress-dots" id="dotsContainer"></div>
+        <button id="nextBtn">NEXT</button>
+    </div>
+
+    <div class="narration-panel">
+        <h4>Speaker Narration</h4>
+        <p id="narrationText"></p>
+    </div>
+
+    <script>
+        const deckData = [
+            {
+                type: 'title',
+                title: 'HALE Oracle',
+                subtitle: 'The Universal Agentic Ledger',
+                bullets: ['Autonomous Forensic Auditing', 'The Trust Layer of the Internet', 'Powered by Circle & Google'],
+                image: 'slide_1_title_1769857440603.png',
+                narration: "Welcome. Today, we’re introducing HALE Oracle—the world’s first autonomous forensic auditor and smart contract oracle. As we move into an era where AI agents conduct the majority of digital transactions, the question isn't if they will trade, but how they will trust. HALE is the infrastructure that bridges the trust gap."
+            },
+            {
+                title: 'The Vision',
+                subtitle: 'Scaling the Autonomous Future',
+                bullets: ['10B+ Projected Micro-transactions (2030)', 'Zero-Trust Infrastructure', 'Human-Independent Settlement'],
+                image: 'slide_2_vision_1769857454068.png',
+                narration: "Imagine a world where millions of AI agents are constantly buying code, data, and services. In this world, human intervention is a bottleneck. Our vision is to create a trustless infrastructure where agents can transact securely, 24/7, without requiring any human in the loop."
+            },
+            {
+                title: 'The Problem',
+                subtitle: 'The Billion Dollar Trust Gap',
+                bullets: ['Anonymous Agents: No legal recourse', 'Proof of Work: How to verify delivery?', 'Escrow Friction: Slow and expensive audit'],
+                image: 'slide_3_problem_1769857466634.png',
+                narration: "But there’s a major problem. Anonymous agents can’t rely on traditional trust. If Agent A pays Agent B for a Python script, how does Agent A know the script actually works before releasing the funds? This 'Trust Gap' is the single biggest barrier to the $10 trillion agentic economy."
+            },
+            {
+                title: 'The Solution',
+                subtitle: 'Meet Your Autonomous Auditor',
+                bullets: ['Forensic Analysis powered by Google Gemini', 'Circle Arc Escrow for USDC Settlement', 'Smart Contract Enforcement'],
+                image: 'slide_4_solution_1769857479428.png',
+                narration: "Enter HALE Oracle. HALE acts as an impartial, autonomous judge. It combines the reasoning power of Google Gemini AI with the ironclad security of the Circle Arc blockchain. HALE listens for deliveries, audits them against digital contract terms, and automatically triggers the release or refund."
+            },
+            {
+                title: 'The Mechanism',
+                subtitle: 'Three Steps to Trust',
+                bullets: ['LOCK: Funds enter Circle Arc Escrow', 'AUDIT: Forensic AI scans the delivery', 'SETTLE: Instant release or refund'],
+                image: 'slide_5_how_it_works_1769857492650.png',
+                narration: "The process is simple but powerful. First, agents agree on terms and lock funds in our smart contract. When the work is delivered, HALE’s AI engine performs a deep forensic audit—checking for security risks, quality, and requirement compliance. Settlement happens in milliseconds."
+            },
+            {
+                title: 'Code Verification',
+                subtitle: 'Deep Dive: AI Marketplaces',
+                bullets: ['Syntax & Logic Micro-scanning', 'Real-time Requirement Mapping', 'Zero Human Latency'],
+                image: 'use_case_code_verify_1769857713766.png',
+                narration: "In Code Marketplaces, HALE micro-scans every line for syntax and logic, releasing funds the millisecond it passes. An agent buying code doesn't have time for a manual PR review—HALE does it for them, forensicly, and at the speed of code."
+            },
+            {
+                title: 'Bounties 2.0',
+                subtitle: 'Deep Dive: Autonomous Labor',
+                bullets: ['Secure Proof of Delivery', 'Instant USDC Settlement', 'Global Compliance by Default'],
+                image: 'use_case_bounty_delivery_1769857730808.png',
+                narration: "In the Bounty Era, HALE ensures bounties are only paid when the delivered asset forensicly matches the request. No ghosting, no non-payment issues. Just perfect, agent-driven labor markets functioning globally."
+            },
+            {
+                title: 'Security-First',
+                subtitle: 'Deep Dive: Forensic Escrow',
+                bullets: ['Backdoor & Malicious Logic Detection', 'Injection Attack Prevention', 'Certified Veracity Score'],
+                image: 'use_case_security_audit_1769857744057.png',
+                narration: "Security is the biggest risk in agentic trading. HALE catchs threats like backdoors and injection attacks before they compromise the buyer. We aren't just an escrow; we are a security protocol that makes commerce safe."
+            },
+            {
+                title: 'Multi-Buyer Escrow',
+                subtitle: 'Deep Dive: Collaboration',
+                bullets: ['Up to 3 Buyers per Seller', 'Automated Proportional Refunds', 'Collective Resource Scaling'],
+                image: 'use_case_collaboration_1769857757985.png',
+                narration: "Finally, Multi-Buyer Escrow allows multiple agents to fund a project collectively. HALE manages the split and refund logic automatically. If the delivery fails, everyone gets their exact proportional share back instantly."
+            },
+            {
+                title: 'The Opportunity',
+                subtitle: 'Rise of the Machine Economy',
+                bullets: ['45% CAGR in Agent Transactions', 'Settlement is the current bottleneck', 'Goal: $1B Volume by 2026'],
+                image: 'slide_9_market_1769857550748.png',
+                narration: "The AI agent market is exploding, but commerce can't grow without trust. By solving the trust problem, HALE unlocks the 'Machine Economy.' We are the protocol for agentic value exchange, aiming to be the standard across Arc and Solana."
+            },
+            {
+                title: 'Roadmap',
+                subtitle: 'From Testnet to Empire',
+                bullets: ['Q1: Mainnet & Developer SDK', 'Q2: Cross-Chain (Solana, Base)', 'Q3: Reputation Oracle Launch'],
+                image: 'slide_10_roadmap_1769857563050.png',
+                narration: "Our roadmap is aggressive. We’ve already deployed on the Arc Testnet. By next quarter, we’ll be on Mainnet. From there, we’re going cross-chain and eventually launching a 'Reputation Oracle' to track agent reliability."
+            },
+            {
+                title: 'HALE Oracle',
+                subtitle: 'Trust at the Speed of Light',
+                bullets: ['Secure your agentic future', 'Join the GitHub: /HaleOracle', 'Documentation: docs.haleoracle.ai'],
+                image: 'slide_12_cta_1769857588667.png',
+                narration: "The future is agentic. The question is: will your agents be able to trust each other? Join us in building the HALE ecosystem and secure the future of the machine economy. Thank you."
+            }
+        ];
+
+        const container = document.getElementById('presentation-container');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const narrationText = document.getElementById('narrationText');
+
+        let currentSlide = 0;
+
+        // Generate slides
+        deckData.forEach((data, index) => {
+            const slide = document.createElement('div');
+            slide.className = `slide ${index === 0 ? 'active' : ''}`;
+
+            const bg = document.createElement('img');
+            bg.src = `pitch_deck_assets/${data.image}`;
+            bg.className = 'slide-bg';
+            slide.appendChild(bg);
+
+            const num = document.createElement('div');
+            num.className = 'slide-number';
+            num.innerText = `${String(index + 1).padStart(2, '0')} / ${deckData.length}`;
+            slide.appendChild(num);
+
+            const content = document.createElement('div');
+            content.className = 'content';
+
+            const title = document.createElement(data.type === 'title' ? 'h1' : 'h2');
+            title.innerText = data.title;
+            content.appendChild(title);
+
+            const sub = document.createElement('p');
+            sub.className = 'subtitle';
+            sub.innerText = data.subtitle;
+            content.appendChild(sub);
+
+            const bullets = document.createElement('ul');
+            bullets.className = 'bullets';
+            data.bullets.forEach((text, i) => {
+                const li = document.createElement('li');
+                li.innerText = text;
+                li.style.animationDelay = `${0.3 + (i * 0.15)}s`;
+                bullets.appendChild(li);
+            });
+            content.appendChild(bullets);
+
+            slide.appendChild(content);
+            container.appendChild(slide);
+
+            // Generate dots
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
+        });
+
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateView() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+
+            narrationText.innerText = deckData[currentSlide].narration;
+
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === deckData.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateView();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < deckData.length - 1) {
+                currentSlide++;
+                updateView();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+
+        updateView();
+    </script>
+</body>
+
+</html>

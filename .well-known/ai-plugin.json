@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_model": "hale_oracle",
+    "name_for_human": "HALE Oracle",
+    "description_for_model": "Autonomous forensic auditor for smart contract deliveries on Circle Arc. Use this plugin to verify code, content, or data deliveries against specific acceptance criteria and trigger automated on-chain USDC settlement.",
+    "description_for_human": "Trustlessly verify digital deliveries and automate blockchain payments using AI forensic auditing.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:8000/openapi.json",
+        "is_user_authenticated": false
+    },
+    "logo_url": "http://localhost:3000/logo.png",
+    "contact_email": "support@haleoracle.com",
+    "legal_info_url": "http://localhost:3000/legal"
+}

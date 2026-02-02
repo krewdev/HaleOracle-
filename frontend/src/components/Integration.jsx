@@ -28,8 +28,11 @@ oracle = HaleOracle(
 )
 
 # Verify a delivery
+# Example environment variables for USDC integration:
+# USDC_RPC_URL=https://rpc.testnet.arc.network
+# USDC_ESCROW_ADDRESS=0x...
 contract_data = {
-    "transaction_id": "tx_0x123abc_arc",
+    "transaction_id": "tx_0x123abc_usdc",
     "Contract_Terms": "Generate a Python script to fetch USDC price",
     "Acceptance_Criteria": [
         "Must be written in Python 3",
@@ -252,7 +255,7 @@ console.log('Verdict:', result.verdict);`
         <div>
           <h1>Integration Guide</h1>
           <p className="page-subtitle">
-            Easily integrate HALE Oracle into your projects, AI agent wallets, 
+            Easily integrate HALE Oracle into your projects, AI agent wallets,
             or any application that needs trustless verification.
           </p>
         </div>
@@ -261,7 +264,7 @@ console.log('Verdict:', result.verdict);`
       <div className="card" style={{ marginBottom: '2rem' }}>
         <h2 style={{ marginBottom: '1rem' }}>Quick Start</h2>
         <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '1rem' }}>
-          Choose the integration method that best fits your use case. All methods 
+          Choose the integration method that best fits your use case. All methods
           support the same verification functionality.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -343,8 +346,8 @@ WALLET_PRIVATE_KEY=0x...`, 'env')}
       <div className="card" style={{ marginTop: '2rem' }}>
         <h2 style={{ marginBottom: '1rem' }}>Need Help?</h2>
         <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8' }}>
-          Check out the <a href="/docs" style={{ color: 'var(--primary)' }}>Documentation</a> section 
-          for detailed guides, or use the <a href="/" style={{ color: 'var(--primary)' }}>Verification Form</a> 
+          Check out the <a href="/docs" style={{ color: 'var(--primary)' }}>Documentation</a> section
+          for detailed guides, or use the <a href="/" style={{ color: 'var(--primary)' }}>Verification Form</a>
           to test your integration.
         </p>
       </div>

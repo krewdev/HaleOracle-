@@ -1,0 +1,22 @@
+{
+  "name": "unified-balance-quickstart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "viem": "^2.0.0",
+    "dotenv": "^16.0.0",
+    "@solana/web3.js": "^1.87.0",
+    "@solana/spl-token": "^0.3.0",
+    "@coral-xyz/anchor": "^0.29.0",
+    "bn.js": "^5.2.0",
+    "bs58": "^5.0.0"
+  }
+}

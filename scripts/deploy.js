@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
   const HALE_ORACLE_ADDRESS = process.env.HALE_ORACLE_ADDRESS;
-  
+
   if (!HALE_ORACLE_ADDRESS) {
     throw new Error("HALE_ORACLE_ADDRESS environment variable not set");
   }
@@ -18,17 +18,17 @@ async function main() {
   }
   const deployer = signers[0];
   console.log("Deploying with account:", deployer.address);
-  
+
   const balance = await hre.ethers.provider.getBalance(deployer.address);
   console.log("Account balance:", hre.ethers.formatEther(balance), "USDC");
 
   const ArcFuseEscrow = await hre.ethers.getContractFactory("ArcFuseEscrow");
-  const escrow = await ArcFuseEscrow.deploy(HALE_ORACLE_ADDRESS);
+  const escrow = await ArcFuseEscrow.deploy(HALE_ORACLE_ADDRESS, deployer.address);
 
   await escrow.waitForDeployment();
 
   const contractAddress = await escrow.getAddress();
-  
+
   console.log("\n✅ ArcFuseEscrow contract deployed successfully!");
   console.log("Contract address:", contractAddress);
   console.log("Oracle address:", HALE_ORACLE_ADDRESS);
@@ -47,7 +47,7 @@ async function main() {
   const oracleAddress = await escrow.oracle();
   const ownerAddress = await escrow.owner();
   const contractBalance = await hre.ethers.provider.getBalance(contractAddress);
-  
+
   console.log("\nContract Info:");
   console.log("- Oracle:", oracleAddress);
   console.log("- Owner:", ownerAddress);

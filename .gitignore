@@ -56,3 +56,11 @@ private_keys/
 
 # ABI files (optional - uncomment if you want to ignore)
 # escrow_abi.json
+
+# Temporary / sensitive files
+.env.temp
+solana-keypair.json
+recovery_file*.dat
+telegram_users.json
+*.log
+pending_reviews/
