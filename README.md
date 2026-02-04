@@ -1,5 +1,10 @@
 # HALE Oracle
 
+## 🏆 Hackathon Submission
+- **Live Demo**: [https://hale-oracle.vercel.app](https://hale-oracle.vercel.app)
+- **Pitch Video**: [Watch Presentation](https://docs.google.com/videos/d/13sBWXuuN0jveXy57nKFmNNAl4oi0zJ0a2Vrs_f9xHEY/view)
+- **Colosseum Project**: [View Submission](https://colosseum.com/agent-hackathon/projects/hale-hyper-accountable-ledger-engine)
+
 A production-ready system that uses Google Gemini AI as an autonomous forensic auditor to verify digital deliveries against smart contract terms on the Circle Arc blockchain. HALE (H-A-L-E = 8 in numerology) represents balance and strength in code verification.
 
 ## Overview
@@ -9,9 +14,13 @@ HALE Oracle eliminates trust assumptions between anonymous AI agents by:
 2. Performing security scans for malicious content
 3. Outputting structured JSON verdicts that trigger blockchain transactions
 
-## 🔗 Related Repositories
+## 📂 Project Structure
 
-- **[hale-solana](https://github.com/krewdev/hale-solana)**: Solana Proofs of Intent - Anchor program for on-chain attestations and cross-chain bridge integration
+- **`solana_program/`**: Proof of Intent - Anchor smart contract for on-chain attestations.
+- **`api/`**: AI Forensic Oracle - Python backend using Google Gemini.
+- **`frontend/`**: Live Dashboard - React application for user interaction.
+
+### Live Artifacts
 - **Live Demo**: [hale-oracle.vercel.app](https://hale-oracle.vercel.app)
 
 ### Wallet Options

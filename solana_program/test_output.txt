@@ -1,0 +1,39 @@
+    Finished `release` profile [optimized] target(s) in 0.61s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.84s
+     Running unittests src/lib.rs (/Users/krewdev/new1/hale-solana/target/debug/deps/hale_solana-9ef5731fd12ed202)
+
+Found a 'test' script in the Anchor.toml. Running it as a test suite!
+
+Running test suite: "/Users/krewdev/new1/hale-solana/Anchor.toml"
+
+yarn run v1.22.22
+$ /Users/krewdev/new1/hale-solana/node_modules/.bin/mocha -t 1000000 tests/
+(node:81794) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+
+  hale-solana
+Raw account data length: 345
+Raw account data (hex): 987db756249279493ca8d44d28d766de9836bc27fc1966352e97028eb9fcfe0f6da16cf2752339c5227ca04e9fb414d5d08a0cc3109b335de0ae2ca249a0f5bdf43e4921b4561e662300000068747470733a2f2f68616c652e7365637572652f696e74656e742d6c6f67732f313233000000fe0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    1) Initializes and seals an attestation
+
+
+  0 passing (705ms)
+  1 failing
+
+  1) hale-solana
+       Initializes and seals an attestation:
+     Error: Invalid option evidenceUri
+      at OptionLayout.decode (node_modules/@coral-xyz/borsh/dist/index.js:115:15)
+      at Structure.decode (node_modules/buffer-layout/lib/Layout.js:1234:32)
+      at BorshAccountsCoder.decodeUnchecked (node_modules/@coral-xyz/anchor/dist/cjs/coder/borsh/accounts.js:75:30)
+      at BorshAccountsCoder.decode (node_modules/@coral-xyz/anchor/dist/cjs/coder/borsh/accounts.js:56:21)
+      at AccountClient.fetchNullableAndContext (node_modules/@coral-xyz/anchor/dist/cjs/program/namespace/account.js:97:40)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async AccountClient.fetch (node_modules/@coral-xyz/anchor/dist/cjs/program/namespace/account.js:108:26)
+      at async Context.<anonymous> (tests/hale-solana.js:35:19)
+
+
+
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

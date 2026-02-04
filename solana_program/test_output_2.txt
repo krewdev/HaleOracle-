@@ -1,0 +1,14 @@
+   Compiling hale_solana v0.1.0 (/Users/krewdev/new1/hale-solana/programs/hale_solana)
+    Finished `release` profile [optimized] target(s) in 6.74s
+   Compiling hale_solana v0.1.0 (/Users/krewdev/new1/hale-solana/programs/hale_solana)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 28.55s
+     Running unittests src/lib.rs (/Users/krewdev/new1/hale-solana/target/debug/deps/hale_solana-9ef5731fd12ed202)
+
+Found a 'test' script in the Anchor.toml. Running it as a test suite!
+
+Running test suite: "/Users/krewdev/new1/hale-solana/Anchor.toml"
+
+yarn run v1.22.22
+$ /Users/krewdev/new1/hale-solana/node_modules/.bin/mocha -t 1000000 tests/
+error Command failed with signal "SIGHUP".
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

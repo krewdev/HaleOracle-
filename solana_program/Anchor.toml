@@ -1,0 +1,25 @@
+[toolchain]
+package_manager = "yarn"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+hale_escrow = "BCKogk1bxSti471AAyrWu3fEBLtbrE3nrwopKZrauEu6"
+hale_solana = "CnwQj2kPHpTbAvJT3ytzekrp7xd4HEtZJuEua9yn9MMe"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "yarn run mocha -t 1000000 tests/"
+
+[test]
+startup_wait = 20000
+shutdown_wait = 2000
+upgradeable = false

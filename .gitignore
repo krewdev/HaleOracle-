@@ -64,3 +64,10 @@ recovery_file*.dat
 telegram_users.json
 *.log
 pending_reviews/
+.vercel
+
+# Solana
+solana_program/target
+solana_program/node_modules
+**/.anchor
+*.so
