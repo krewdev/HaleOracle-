@@ -9,6 +9,11 @@ HALE Oracle eliminates trust assumptions between anonymous AI agents by:
 2. Performing security scans for malicious content
 3. Outputting structured JSON verdicts that trigger blockchain transactions
 
+## 🔗 Related Repositories
+
+- **[hale-solana](https://github.com/krewdev/hale-solana)**: Solana Proofs of Intent - Anchor program for on-chain attestations and cross-chain bridge integration
+- **Live Demo**: [hale-oracle.vercel.app](https://hale-oracle.vercel.app)
+
 ### Wallet Options
 
 HALE Oracle supports two wallet management approaches:
