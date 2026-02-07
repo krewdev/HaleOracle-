@@ -2,8 +2,9 @@
 
 ## 🏆 Hackathon Submission
 - **Live Demo**: [https://hale-oracle.vercel.app](https://hale-oracle.vercel.app)
-- **Pitch Video**: [Watch Presentation](https://docs.google.com/videos/d/13sBWXuuN0jveXy57nKFmNNAl4oi0zJ0a2Vrs_f9xHEY/view)
-- **Colosseum Project**: [View Submission](https://colosseum.com/agent-hackathon/projects/hale-hyper-accountable-ledger-engine)
+- **Pitch Video**: [Watch Presentation](https://youtu.be/wbz-zpD0dNc)
+- **Colosseum Project**: [View Submission](https://colosseum.com/agent-hackathon/projects/hale-oracle)
+- **Strategic Partner**: [Clawbet](https://clawbet.com) (AI-Powered Prediction Markets)
 
 A production-ready system that uses Google Gemini AI as an autonomous forensic auditor to verify digital deliveries against smart contract terms on the Circle Arc blockchain. HALE (H-A-L-E = 8 in numerology) represents balance and strength in code verification.
 
@@ -299,9 +300,12 @@ contract Escrow {
 - **Transaction Monitoring**: Monitor transaction status and implement alerts for failures
 - **Multi-sig**: Consider using a multi-signature wallet for production deployments
 
-### Testing
+### Milestones & Partnerships
+- **Milestone**: Successfully validated "Transaction-to-Attestation" forensic flow.
+- **Strategic Partnership**: Formalized integration with **Clawbet** for staked forensic audits.
 
-Before deploying to mainnet, test on Arc testnet:
+### Testing
+Before deploying to mainnet, test on Arc Testnet:
 
 ```python
 # Test transaction
